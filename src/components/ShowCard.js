@@ -32,17 +32,49 @@ function ShowCard({show, onShowClicked, onShowDelete}) {
         return imgSrc;
     }
 
+    function handleAddOrRemove(e) {
+        
+        let t = e.target
+        
+        if (t.innerText !== 'Delete') {
+
+        while (!t.classList.contains('show-card')) {
+            t = t.parentNode
+        }
+        let title = t.children[1].children[0].children[0].innerText
+
+        onShowClicked(title)
+
+        }
+    }
+
+    function handleDelete(e) {
+        
+        let t = e.target
+        
+        if (t.innerText === 'Delete') {
+
+        while (!t.classList.contains('show-card')) {
+            t = t.parentNode
+        }
+        let title = t.children[1].children[0].children[0].innerText
+
+        onShowDelete(title)
+
+        }
+    }
+
     return(
-        <div className="show-card" onClick={() => console.log("Clicking card...")}>
-            <img src="" alt="cover art" className="show-art"/>
+        <div className="show-card" onClick={(e) => handleAddOrRemove(e)}>
+            <img src={show.image} alt="cover art" className="show-art"/>
             <div className="details-container">
                 <header>
-                    <h3>SHOW NAME</h3>                    
+                    <h3>{show.name}</h3>                    
                 </header>
-                <p>SHOW SUMMARY</p>
+                <p>{show.summary}</p>
                 <footer>
                     <img src={getStreamingLogo(show.stream_on)} alt={show.stream_on} className="streaming-logo"></img>
-                    <button onClick={() => console.log("Clicked delete...")}>Delete</button>
+                    <button onClick={(e) => handleDelete(e)}>Delete</button>
                 </footer>
             </div>
         </div>
